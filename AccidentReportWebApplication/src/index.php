@@ -25,7 +25,7 @@
 			            echo "<td>".$info['DateTime']."</td>";
 			            echo "<td>".$info['Latitude'].", ".$info['Longitude']."</td>";
 			            echo "<td>".$info['AccidentType'];
-			            echo "<td><a href='detail.php/?url=".$info['ID']."'> Select </a></td>";
+			            echo "<td><a href='detail.php/?id=".$info['ID']."'> Select </a></td>";
 			            echo '<tr>';
 			        }
 		        ?>
