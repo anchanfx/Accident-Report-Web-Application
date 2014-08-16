@@ -1,6 +1,6 @@
 <?php
 	class AccidentReport{
-		
+	 	
 		public $longitude;
 		public $latitude;
 		public $accidentType;

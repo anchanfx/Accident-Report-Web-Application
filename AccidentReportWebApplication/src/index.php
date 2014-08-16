@@ -2,7 +2,7 @@
 	include_once 'connect.php';
 	$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport");
 ?>
-
+ 
 <html>
 	<head>
 		<title>All Accident</title>
