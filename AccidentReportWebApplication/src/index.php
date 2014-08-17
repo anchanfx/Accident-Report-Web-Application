@@ -1,6 +1,6 @@
 <?php
 	include_once 'connect.php';
-	$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport ORDER BY DateTime DESC");
+	$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport ORDER BY ID DESC");
 ?>
  
 <html>
