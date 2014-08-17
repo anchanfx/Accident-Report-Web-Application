@@ -5,37 +5,38 @@
 	$info = mysqli_fetch_array($mysql)
 ?>
 	
+
 <html>
-<script
-src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDz0rT51DX278aAZzuoKpMp8XYQrNCpzIE">
-</script>
-
-<script>
-var myCenter=new google.maps.LatLng(16.74298,100.20436);
-
-function initialize()
-{
-var mapProp = {
-  center:myCenter,
-  zoom:15,
-  mapTypeId:google.maps.MapTypeId.ROADMAP
-  };
-
-var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-
-var marker=new google.maps.Marker({
-  position:myCenter,
-  });
-
-marker.setMap(map);
-}
-
-google.maps.event.addDomListener(window, 'load', initialize);
-</script>
-
 	<body>
 		<div>
-			<span>MAP</span>
+			<span>
+                        <script
+                        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDz0rT51DX278aAZzuoKpMp8XYQrNCpzIE">
+                        </script>
+                                
+                                <script>
+                                var myCenter=new google.maps.LatLng(<?php echo $info['Latitude']; ?>,<?php echo $info['Longitude']; ?>);
+                                
+                                function initialize()
+                                {
+                                var mapProp = {
+                                  center:myCenter,
+                                  zoom:15,
+                                  mapTypeId:google.maps.MapTypeId.ROADMAP
+                                  };
+                                
+                                var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
+                                
+                                var marker=new google.maps.Marker({
+                                  position:myCenter,
+                                  });
+                                
+                                marker.setMap(map);
+                                }
+                                
+                                google.maps.event.addDomListener(window, 'load', initialize);
+                                </script>
+                        </span>
 			<span>
 				<div>
 					ID : 
@@ -67,7 +68,12 @@ google.maps.event.addDomListener(window, 'load', initialize);
 				</div>
 				<div>
 					Traffic Block : 
-					<?php echo $info['TrafficBlocked']?>
+					<?php
+                                        if ($info['TrafficBlocked'] == 0)
+                                                echo "No";
+                                        else
+                                                echo "Yes";
+                                        ?>
 				</div>
 				<div>
 					Message : 
