@@ -1,5 +1,7 @@
 <?php
+	header('Content-Type: text/html; charset=utf-8');
 	include_once 'connect.php';
+	$con->set_charset("utf8");
 	$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport ORDER BY ID DESC");
 ?>
  

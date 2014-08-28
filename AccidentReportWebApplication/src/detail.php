@@ -1,6 +1,8 @@
 <?php
+	header('Content-Type: text/html; charset=utf-8');
 	$id = $_GET['id'];
 	include_once 'connect.php';
+	$con->set_charset("utf8");
 	$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport WHERE ID = " . $id);
 	$info = mysqli_fetch_array($mysql)
 ?>
