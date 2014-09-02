@@ -1,16 +1,11 @@
 <?php
 	header('Content-Type: text/html; charset=utf-8');
 	require_once 'connect.php';
+	require_once 'db.php';
+	
 	$con = connect();
 	
-	function all_accident($con)
-	{
-		$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport ORDER BY ID DESC");
-		
-		return $mysql;
-	}
-	
-	$mysql = all_accident($con);
+	$mysql = queryAllAccident($con);
 ?>
  
 <html>
