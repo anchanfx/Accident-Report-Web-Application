@@ -1,10 +1,17 @@
 <?php
 	header('Content-Type: text/html; charset=utf-8');
+	require_once 'connect.php';
 	$id = $_GET['id'];
-	include_once 'connect.php';
-	$con->set_charset("utf8");
-	$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport WHERE ID = " . $id);
-	$info = mysqli_fetch_array($mysql)
+	$con = connect();
+	function a_accident($con, $id)
+	{
+		$con->set_charset("utf8");
+		$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport WHERE ID = " . $id);
+		$info = mysqli_fetch_array($mysql);
+		return $info;
+	}
+	
+	$info = a_accident($con, $id);
 ?>
 	
 

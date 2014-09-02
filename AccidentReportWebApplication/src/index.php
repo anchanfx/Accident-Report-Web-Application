@@ -1,8 +1,16 @@
 <?php
 	header('Content-Type: text/html; charset=utf-8');
-	include_once 'connect.php';
-	$con->set_charset("utf8");
-	$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport ORDER BY ID DESC");
+	require_once 'connect.php';
+	$con = connect();
+	
+	function all_accident($con)
+	{
+		$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport ORDER BY ID DESC");
+		
+		return $mysql;
+	}
+	
+	$mysql = all_accident($con);
 ?>
  
 <html>
@@ -21,7 +29,7 @@
 			</thead>
 			<tbody>
 				<?php
-			        while( $info = mysqli_fetch_array($mysql))
+			        while($info = mysqli_fetch_array($mysql))
 			        {
 			            echo "<tr>";
 			            echo "<td>".$info['DateTime']."</td>";
