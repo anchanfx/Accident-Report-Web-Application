@@ -1,10 +1,13 @@
 <?php
 	header('Content-Type: text/html; charset=utf-8');
-	$id = $_GET['id'];
-	include_once 'connect.php';
-	$con->set_charset("utf8");
-	$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport WHERE ID = " . $id);
-	$info = mysqli_fetch_array($mysql)
+		require_once 'AccidentReport.php';
+        require_once 'DB.php';
+        require_once 'connect.php';
+        $id = $_GET['id'];
+        $con = connect();
+               
+        $info = selectAccidentReport ($con, $id);
+        $con->close();
 ?>
 	
 
@@ -17,7 +20,7 @@
                         </script>
                                 
                                 <script>
-                                var myCenter=new google.maps.LatLng(<?php echo $info['Latitude']; ?>,<?php echo $info['Longitude']; ?>);
+                                var myCenter=new google.maps.LatLng(<?php echo $info->latitude; ?>,<?php echo $info->longitude; ?>);
                                 
                                 function initialize()
                                 {
@@ -42,36 +45,36 @@
 			<span>
 				<div>
 					ID : 
-					<?php echo $info['ID']?>
+					<?php echo $id?>
 				</div>
 				<div>
 					Date & Time : 
-					<?php echo $info['DateTime']; ?>
+					<?php echo $info->dateTime; ?>
 				</div>
 				<div>
 					Latitude : 
-					<?php echo $info['Latitude']; ?>
+					<?php echo $info->latitude; ?>
 				</div>
 				<div>
 					Longitude : 
-					<?php echo $info['Longitude']; ?>
+					<?php echo $info->longitude; ?>
 				</div>
 				<div>
 					Type : 
-					<?php echo $info['AccidentType']; ?>
+					<?php echo $info->accidentType; ?>
 				</div>
 				<div>
 					Dead : 
-					<?php echo $info['AmountOfDead']?>
+					<?php echo $info->amountOfDead?>
 				</div>
 				<div>
 					Injured : 
-					<?php echo $info['AmountOfInjured']?>
+					<?php echo $info->amountOfInjured?>
 				</div>
 				<div>
 					Traffic Block : 
 					<?php
-                                        if ($info['TrafficBlocked'] == 0)
+                                        if ($info->trafficBlocked == 0)
                                                 echo "No";
                                         else
                                                 echo "Yes";
@@ -79,7 +82,7 @@
 				</div>
 				<div>
 					Message : 
-					<?php echo $info['Message']?>
+					<?php echo $info->message?>
 				</div>
 				<div id="googleMap" style="width:500px;height:380px;"></div>
 			</span>
