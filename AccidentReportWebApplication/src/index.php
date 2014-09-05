@@ -5,6 +5,7 @@
 	require_once 'connect.php';
 	$con = connect();
 	$mysql = selectAllAccidentReport($con);
+	$con->close();
 ?>
  
 <html>
