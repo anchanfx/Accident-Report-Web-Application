@@ -1,11 +1,11 @@
 <?php
 	header('Content-Type: text/html; charset=utf-8');
+	require_once 'AccidentReport.php';
+	require_once 'DB.php';
 	require_once 'connect.php';
-	require_once 'db.php';
-	
 	$con = connect();
-	
-	$mysql = queryAllAccident($con);
+	$mysql = selectAllAccidentReport($con);
+        $con->close();
 ?>
  
 <html>
