@@ -1,9 +1,11 @@
 <?php
 
-// PATH ที่ GEN มาให้อัตโนมัติ
+// FAX
 //require_once 'C:\Users\AnchanFX\Workspace\Git\Accident-Report-Web-Application\AccidentReportWebApplication\src\SimpleClass.php';
-// ต้องแก้เองเสมอให้เป็น
-require_once 'SimpleClass.php';
+// GUN
+//
+// DEUAN
+//require_once 'C:\Users\Deuan\git\Accident-Report-Web-Application\AccidentReportWebApplication\src\SimpleClass.php';
 
 /**
  * Test class for SimpleClass.
