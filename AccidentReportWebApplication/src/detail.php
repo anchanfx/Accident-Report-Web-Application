@@ -2,12 +2,12 @@
 	header('Content-Type: text/html; charset=utf-8');
 		require_once 'AccidentReport.php';
         require_once 'DB.php';
-        require_once 'connect.php';
         $id = $_GET['id'];
-        $con = connect();
-               
-        $info = selectAccidentReport ($con, $id);
-        $con->close();
+
+        $db = new DB();
+        $db->connect();
+        $info = $db->selectAccidentReport ($id);
+        $db->closeDB();
 ?>
 	
 

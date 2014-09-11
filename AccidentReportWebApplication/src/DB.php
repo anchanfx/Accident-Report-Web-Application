@@ -1,18 +1,41 @@
 <?php
         header('Content-Type: text/html; charset=utf-8');
         require_once('AccidentReport.php');
-	
-	function selectAllAccidentReport($con)
+class DB{
+	var $con;
+	function connect()
 	{
-		$mysql = mysqli_query ($con, "SELECT * FROM AccidentReport ORDER BY ID DESC");
+		$host = "fdb7.runhosting.com";
+		$user = "1679495_dbacc";
+		$pass = "tot_1288";
+		$name = "1679495_dbacc";
+	
+		$con = mysqli_connect($host, $user, $pass, $name);
+		$con->set_charset("utf8");
+	
+		if (mysqli_connect_error()) {
+			echo "Fail to connect to mysql: " . mysqli_connect_error();
+		}
+	
+		$this->con = $con;
+	}
+	
+function closeDB(){
+		mysqli_close($this->con) or die("Can't Close Connection");
+	}
+	
+	function selectAllAccidentReport()
+	{
+		$mysql = mysqli_query ($this->con, "SELECT * FROM AccidentReport ORDER BY ID DESC");
 	
 		return $mysql;
 	}
 
         
-	function selectAccidentReport ($con, $id)
+	function selectAccidentReport ($id)
 	{
-                $stmt = $con->prepare("SELECT * FROM AccidentReport WHERE ID = ?");
+		$conn = $this->con;
+                $stmt = $conn->prepare("SELECT * FROM AccidentReport WHERE ID = ?");
                 $stmt->bind_param("i", $id);
                 $stmt->execute();
                 $stmt->bind_result($id, $longitude,$latitude,$accidentType,
@@ -27,5 +50,5 @@
 						$trafficBlocked,$message,$dateTime);
                 return $result;
 	}
-	
+}
 ?>
