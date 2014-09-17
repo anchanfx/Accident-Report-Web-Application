@@ -12,38 +12,57 @@ header('Content-Type: text/html; charset=utf-8');
 	<body>
                                 
                 <script>
-                        var myCenter=new google.maps.LatLng(0,0);
-                        var myCenter1=new google.maps.LatLng(1,1);
+                        var map;
+                        var accidentMarkers = [];
                         
                         function initialize()
                         {
-                        var mapProp = {
-                          center:myCenter,
-                          zoom:5,
-                          mapTypeId:google.maps.MapTypeId.ROADMAP
-                          };
-                        
-                        var map=new google.maps.Map(document.getElementById("googleMap"),mapProp);
-                        
-                        var marker=new google.maps.Marker({
-                                position:myCenter, 
-                          });
-                        
-                        marker.setMap(map);
-                        
-                        var marker2=new google.maps.Marker({
-                                position:myCenter1, 
-                          });
-                        
-                        marker2.setMap(map);
+                                var myCenter=new google.maps.LatLng(0,0);
+                                var mapProp = {   
+                                  center:myCenter,
+                                  zoom:5,
+                                  mapTypeId:google.maps.MapTypeId.TERRAIN
+                                };
+                                
+                                map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
                         }
                         
+                        function addMarker(location, markers, map) {
+                          var marker = new google.maps.Marker({
+                            position: location,
+                            map: map
+                          });
+                          markers.push(marker);
+                        }
+                        
+                        function setMakersOnMap(markers, map) {
+                          for (var i = 0; i < markers.length; i++) {
+                                 markers[i].setMap(map);
+                          }
+                        }
+                        
+                        function clearMarkers(markers) {
+                                setMakersOnMap(markers, null);
+                        }
+                        
+                        function setCenter(location) {
+                                map.setCenter(location);
+                        }
+                        
+                        function deleteMarkers(markers) {
+                          clearMarkers(markers);
+                                //markers = [];
+                                while(markers.length > 0) {
+                                    markers.pop();
+                                }
+                        }
+
                         google.maps.event.addDomListener(window, 'load', initialize);
                 </script>
                 
 		<div>
                 <span>
-                        <div id="googleMap" style="width:500px;height:380px;"></div>
+                        <div id="googleMap" style="width:1176px;height:664px;"></div>
                 </span>
 		</div>
                 
@@ -54,7 +73,7 @@ header('Content-Type: text/html; charset=utf-8');
                                 var eSource = new EventSource("liveMap_sse.php");
                                 
                                 eSource.onopen = function(event) {
-                                        //alert("OnOpen");
+                                        //alert("OnOpen");                                       
                                 };
                                 
                                 eSource.onerror = function(event) {
@@ -68,9 +87,13 @@ header('Content-Type: text/html; charset=utf-8');
                                 eSource.addEventListener('AccidentReport', function(event) {
                                         var data = JSON.parse(event.data);
                                         var string = "";
-                                        
+                                        var location;
+                                        deleteMarkers(accidentMarkers);
+                                         
                                         for(var i = 0; i < data.length; i++)
                                         {
+                                                location = new google.maps.LatLng(data[i].Latitude, data[i].Longitude);
+                                                addMarker(location, accidentMarkers, map);
                                                 string += data[i].ID + ", ";
                                                 string += data[i].Longitude + ", ";
                                                 string += data[i].Latitude + ", ";
@@ -83,6 +106,8 @@ header('Content-Type: text/html; charset=utf-8');
                                                 string += "<br>";
                                         }
                                         
+                                        setMakersOnMap(accidentMarkers, map);
+                                        setCenter(location);
                                         document.getElementById("serverData").innerHTML = string;
                                 }, false);
                         }
