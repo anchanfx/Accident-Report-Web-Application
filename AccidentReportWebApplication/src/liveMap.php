@@ -1,16 +1,15 @@
 <?php
-//header('Content-Type: text/html; charset=utf-8');
+header('Content-Type: text/html; charset=utf-8');
 ?>
 	
 <!DOCTYPE html>
 <html>
         <head>
-        
+                <title>Live Map</title>
+        <!-- <script src="https://code.jquery.com/jquery-2.1.1.min.js"> </script> -->
+        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDz0rT51DX278aAZzuoKpMp8XYQrNCpzIE"></script>
         </head>
 	<body>
-                <script
-                        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDz0rT51DX278aAZzuoKpMp8XYQrNCpzIE">
-                </script>
                                 
                 <script>
                         var myCenter=new google.maps.LatLng(0,0);
@@ -51,18 +50,44 @@
                 <div id="serverData"></div>
                 
                 <script type="text/javascript">
-                        //check for browser support
                         if(typeof(EventSource)!=="undefined") {
-                                //create an object, passing it the name and location of the server side script
                                 var eSource = new EventSource("liveMap_sse.php");
-                                //detect message receipt
-                                eSource.onmessage = function(event) {
-                                        //write the received data to the page
-                                        document.getElementById("serverData").innerHTML = event.data;
+                                
+                                eSource.onopen = function(event) {
+                                        //alert("OnOpen");
                                 };
+                                
+                                eSource.onerror = function(event) {
+                                        //alert("OnError");
+                                };
+                                
+                                eSource.onmessage = function(event) {
+                                        alert(event.data);
+                                };
+                                
+                                eSource.addEventListener('AccidentReport', function(event) {
+                                        var data = JSON.parse(event.data);
+                                        var string = "";
+                                        
+                                        for(var i = 0; i < data.length; i++)
+                                        {
+                                                string += data[i].ID + ", ";
+                                                string += data[i].Longitude + ", ";
+                                                string += data[i].Latitude + ", ";
+                                                string += data[i].AccidentType + ", ";
+                                                string += data[i].AmountOfDead + ", ";
+                                                string += data[i].AmountOfInjured + ", ";
+                                                string += data[i].TrafficBlocked + ", ";
+                                                string += data[i].Message + ", ";
+                                                string += data[i].DateTime + ", ";
+                                                string += "<br>";
+                                        }
+                                        
+                                        document.getElementById("serverData").innerHTML = string;
+                                }, false);
                         }
                         else {
-                                document.getElementById("serverData").innerHTML="Whoops! Your browser doesn't receive server-sent events.";
+                                alert("Whoops! Your browser doesn't receive server-sent events.");
                         }
                 </script> 
 	</body>

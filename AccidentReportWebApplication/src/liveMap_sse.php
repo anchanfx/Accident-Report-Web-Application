@@ -3,19 +3,32 @@
         
 	header('Content-Type: text/event-stream');
 	header('Cache-Control: no-cache');
-	
-	$db = new DB();
-	$db->connect();
-	$mysql = $db->selectAllAccidentReport();
-	$db->closeDB();
-	$data = "";
         
-	while($extract = mysqli_fetch_array($mysql)) {
-                $data .= $extract['Longitude'] . " : " . $extract['Latitude'];
-                $data .= "<br>";
-	}
-	     
-        echo "retry:2500\ndata: {$data}\n\n";
-	flush();
+        function run() {
+                $db = new DB();
+                $accidentReportJSON = null;
+                
+                while(1) {
+                        $db->connect();
+                        $query = $db->selectAllAccidentReport();
+                        $db->closeDB();
+                        $data = "";
+                        $accidentReportRow = array();
+                        
+                        while($r = mysqli_fetch_assoc($query)) {
+                                $accidentReportRow[] = $r;
+                        }
+                        
+                        $accidentReportJSON = json_encode($accidentReportRow);
+                        
+                        echo "event: AccidentReport\ndata: {$accidentReportJSON}\n\n";
+                        //echo "data: HELLO\n\n";
+                        
+                        ob_flush();
+                        flush();
+                        sleep(5);
+                }
+        }
         
+        run();
 ?>
