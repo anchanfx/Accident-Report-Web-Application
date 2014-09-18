@@ -27,12 +27,16 @@ header('Content-Type: text/html; charset=utf-8');
                                 map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
                         }
                         
-                        function addMarker(location, markers, map) {
-                          var marker = new google.maps.Marker({
-                            position: location,
-                            map: map
-                          });
-                          markers.push(marker);
+                        function addMarker(location, markers, map, action, icon) {
+                                 var marker = new google.maps.Marker({
+                                         position: location,
+                                         map: map
+                                 });
+                                  
+                                google.maps.event.addListener(marker, 'click', action);
+                                marker.setIcon(icon);
+                                
+                                markers.push(marker);
                         }
                         
                         function setMakersOnMap(markers, map) {
@@ -50,8 +54,7 @@ header('Content-Type: text/html; charset=utf-8');
                         }
                         
                         function deleteMarkers(markers) {
-                          clearMarkers(markers);
-                                //markers = [];
+                                clearMarkers(markers);
                                 while(markers.length > 0) {
                                     markers.pop();
                                 }
@@ -61,9 +64,9 @@ header('Content-Type: text/html; charset=utf-8');
                 </script>
                 
 		<div>
-                <span>
-                        <div id="googleMap" style="width:1176px;height:664px;"></div>
-                </span>
+                        <span>
+                                <div id="googleMap" style="width:1176px;height:664px;"></div>
+                        </span>
 		</div>
                 
                 <div id="serverData"></div>
@@ -87,27 +90,32 @@ header('Content-Type: text/html; charset=utf-8');
                                 eSource.addEventListener('AccidentReport', function(event) {
                                         var data = JSON.parse(event.data);
                                         var string = "";
+                                        var alertString = "";
                                         var location;
                                         deleteMarkers(accidentMarkers);
                                          
                                         for(var i = 0; i < data.length; i++)
                                         {
+                                                alertString = "ID: " + data[i].ID + "\n";
+                                                alertString += "Longitude: " + data[i].Longitude + "\n";
+                                                alertString += "Latitude: " + data[i].Latitude + "\n";
+                                                alertString += "AccidentType: " + data[i].AccidentType + "\n";
+                                                alertString += "AmountOfDead: " + data[i].AmountOfDead + "\n";
+                                                alertString += "AmountOfInjured: " + data[i].AmountOfInjured + "\n";
+                                                alertString += "TrafficBlocked: " + data[i].TrafficBlocked + "\n";
+                                                alertString += "Message: " + data[i].Message + "\n";
+                                                alertString += "DateTime: " + data[i].DateTime + "\n";
+                                                
+                                                
                                                 location = new google.maps.LatLng(data[i].Latitude, data[i].Longitude);
-                                                addMarker(location, accidentMarkers, map);
-                                                string += data[i].ID + ", ";
-                                                string += data[i].Longitude + ", ";
-                                                string += data[i].Latitude + ", ";
-                                                string += data[i].AccidentType + ", ";
-                                                string += data[i].AmountOfDead + ", ";
-                                                string += data[i].AmountOfInjured + ", ";
-                                                string += data[i].TrafficBlocked + ", ";
-                                                string += data[i].Message + ", ";
-                                                string += data[i].DateTime + ", ";
-                                                string += "<br>";
+                                                addMarker(location, accidentMarkers, map, function(){
+                                                        alert(alertString);
+                                                }, null);
+                                                
+                                                string += alertString + "<br><br>";
                                         }
                                         
                                         setMakersOnMap(accidentMarkers, map);
-                                        setCenter(location);
                                         document.getElementById("serverData").innerHTML = string;
                                 }, false);
                         }
