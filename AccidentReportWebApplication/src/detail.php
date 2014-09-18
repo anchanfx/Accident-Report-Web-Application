@@ -12,14 +12,12 @@
 	
 
 <html>
+        <head>
+                <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDz0rT51DX278aAZzuoKpMp8XYQrNCpzIE"></script>
+        </head>
 	<body>
 		<div>
-			<span>
-                        <script
-                        src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDz0rT51DX278aAZzuoKpMp8XYQrNCpzIE">
-                        </script>
-                                
-                                <script>
+                        <script>
                                 var myCenter=new google.maps.LatLng(<?php echo $info->latitude; ?>,<?php echo $info->longitude; ?>);
                                 
                                 function initialize()
@@ -40,8 +38,7 @@
                                 }
                                 
                                 google.maps.event.addDomListener(window, 'load', initialize);
-                                </script>
-                        </span>
+                        </script>
 			<span>
 				<div>
 					ID : 
