@@ -40,7 +40,8 @@ function closeDB(){
                 $stmt->execute();
                 $stmt->bind_result($id, $longitude,$latitude,$accidentType,
                                         $amountOfDead,$amountOfInjured,
-                                        $trafficBlocked,$message,$dateTime);
+                                        $trafficBlocked,$message,
+                                        $dateTime,$serverDateTime,$resolve);
                 
                 $stmt->fetch();
                 $stmt->close();
@@ -48,6 +49,8 @@ function closeDB(){
                 $result = new AccidentReport($longitude,$latitude,$accidentType,
                                                 $amountOfDead,$amountOfInjured,
 						$trafficBlocked,$message,$dateTime);
+                $result->serverDateTime = $serverDateTime;
+                $result->resolve = $resolve;
                 return $result;
 	}
 }
