@@ -2,6 +2,7 @@
     header('Content-Type: text/html; charset=utf-8');
     require_once('AccidentReport.php');
     require_once('config.php');
+    
 	class DB{
 		var $con;
 		function connect()
@@ -16,7 +17,7 @@
 			$this->con = $con;
 		}
 		
-	function closeDB(){
+		function closeDB(){
 			mysqli_close($this->con) or die("Can't Close Connection");
 		}
 		
