@@ -1,7 +1,8 @@
 <?php
 	header('Content-Type: text/html; charset=utf-8');
-		require_once 'AccidentReport.php';
+	require_once 'AccidentReport.php';
         require_once 'DB.php';
+        require_once 'menubar.php';
         $id = $_GET['id'];
 
         $db = new DB();
@@ -13,6 +14,7 @@
 
 <html>
         <head>
+        
                 <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDz0rT51DX278aAZzuoKpMp8XYQrNCpzIE"></script>
         </head>
 	<body>

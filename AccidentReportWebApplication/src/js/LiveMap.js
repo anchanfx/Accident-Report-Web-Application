@@ -2,21 +2,32 @@
 	var map;
 
 	function LiveMap() {
-		this.markers = [];
+		this.accidentMarkers = [];
+		this.rescueUnitMarkers = [];
 	}
 
 	LiveMap.prototype.initialize = function() {
-	    var myCenter=new google.maps.LatLng(0,0);
+	    var myCenter = new google.maps.LatLng(0,0);
 	    var mapProp = {   
 			center:myCenter,
 			zoom:5,
-			mapTypeId:google.maps.MapTypeId.TERRAIN
+			mapTypeId:google.maps.MapTypeId.HYBRID 
 	    };
 	    
 	    map = new google.maps.Map(document.getElementById("googleMap"),mapProp);
+	    map.setTilt(45);
+	    map.setOptions({ minZoom: 2, maxZoom: 15 });
 	}
 
-	LiveMap.prototype.addMarker = function(position, icon, clickAction) {
+	LiveMap.prototype.addAccidentMarker = function(position, icon, clickAction) {
+		this.addMarker(position, icon, clickAction, this.accidentMarkers);
+	}
+
+	LiveMap.prototype.addRescueUnitMarker = function(position, icon, clickAction) {
+		this.addMarker(position, icon, clickAction, this.rescueUnitMarkers);
+	}
+
+	LiveMap.prototype.addMarker = function(position, icon, clickAction, markers) {
 		var location = new google.maps.LatLng(position.latitude, position.longitude);
 		
 	    var marker = new google.maps.Marker({
@@ -26,25 +37,41 @@
 		
 		google.maps.event.addListener(marker, 'click', clickAction);
 		
-	    this.markers.push(marker);		
+	    markers.push(marker);		
 	}
 
-	LiveMap.prototype.showMarkers = function() {
-		for (var i = 0; i < this.markers.length; i++) {
-			this.markers[i].setMap(map);
+	LiveMap.prototype.showAccidentMarkers = function() {
+		this.showMarkers(this.accidentMarkers);
+	}
+
+	LiveMap.prototype.showRescueUnitMarkers = function() {
+		this.showMarkers(this.rescueUnitMarkers);
+	}
+
+	LiveMap.prototype.showMarkers = function(markers) {
+		for (var i = 0; i < markers.length; i++) {
+			markers[i].setMap(map);
 		}
 	}
 
-	LiveMap.prototype.hideMarkers = function() {
-		for (var i = 0; i < this.markers.length; i++) {
-			this.markers[i].setMap(null);
+	LiveMap.prototype.emptyAccidentMarkers = function() {
+		this.emptyMarkers(this.accidentMarkers);
+	}
+
+	LiveMap.prototype.emptyRescueUnitMarkers = function() {
+		this.emptyMarkers(this.rescueUnitMarkers);
+	}
+
+	LiveMap.prototype.emptyMarkers = function(markers) {
+		this.hideMarkers(markers);
+		while(markers.length > 0) {
+			markers.pop();
 		}
 	}
 
-	LiveMap.prototype.emptyMarkers = function() {
-		this.hideMarkers();
-		while(this.markers.length > 0) {
-			this.markers.pop();
+	LiveMap.prototype.hideMarkers  = function(markers) {
+		for (var i = 0; i < markers.length; i++) {
+			markers[i].setMap(null);
 		}
 	}
 

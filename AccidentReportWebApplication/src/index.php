@@ -2,6 +2,7 @@
 	header('Content-Type: text/html; charset=utf-8');
 	require_once 'AccidentReport.php';
 	require_once 'DB.php';
+        require_once 'menubar.php';
 	$db = new DB();
 	$db->connect();
 	$mysql = $db->selectAllAccidentReport();

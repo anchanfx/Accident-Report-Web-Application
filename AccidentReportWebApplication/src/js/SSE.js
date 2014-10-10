@@ -20,6 +20,5 @@
 		else
 			return false;
 	};
-	
 	window.SSE = SSE;
 })(window);
