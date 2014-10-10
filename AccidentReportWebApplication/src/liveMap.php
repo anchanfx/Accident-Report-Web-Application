@@ -7,43 +7,27 @@ require_once 'menubar.php';
 <html>
     <head>
         <title>Live Map</title>
-        <script src="http://maps.googleapis.com/maps/api/js?key=AIzaSyDz0rT51DX278aAZzuoKpMp8XYQrNCpzIE"></script>
-        <script src="js/Position.js"></script>
-        <script src="js/AdditionalInfo.js"></script>
-        <script src="js/AccidentReport.js"></script>
-        <script src="js/Accident.js"></script>
-        <script src="js/RescueUnitStatus.js"></script>
-        <script src="js/RescueUnit.js"></script>
-        <script src="js/LiveMap.js"></script>
-        <script src="js/SSE.js"></script>
-        <script src="js/LiveMap_sse.js"></script>
-
-        <script>
-            var liveMap = new LiveMap();
-            var liveMap_sse = new LiveMap_SSE(new SSE(), liveMap);
-            google.maps.event.addDomListener(window, 'load', liveMap.initialize);
+        
+        <script type="text/javascript" src="js/liveMapHeader.js"></script>
+        <script type="text/javascript">
+            headerSetup();
         </script>
     </head>
     <body>
         <div>
-                <span>      
-                        <div>
-                            <span>
-                                <div id="googleMap" style="width:1176px;height:664px;"></div>
-                            </span>
-                        </div>
-                                
-                        <script>
-                            liveMap_sse.initialize();
-                        </script>
-                </span>
+            <div id="googleMap" style="width:1366px;height:768px;"></div>
 
-                <!--
-                <span>
-                        <?php require_once 'databox.php'; ?>
-                </span>
-                -->
+            <h3>Accident</h3>
+            <div id="accidentRadioList"></div>
+            <hr>
+            <h3>Rescue Unit</h3>
+            <div id="rescueUnitRadioList"></div>
+            <button id="assignButton" type="button" value="Submit">Assign</button>
         </div>
+
+        <script type="text/javascript">
+            footerSetup();
+        </script>
     </body>
 
 </html>

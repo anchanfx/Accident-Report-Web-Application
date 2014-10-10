@@ -22,7 +22,10 @@
 			var data = JSON.parse(event.data);
             var string = "";
             var markerIconURL = './res/red-dot.png';
+            var accidentRadioList = document.getElementById("accidentRadioList");
+            accidentRadioList.innerHTML = "";
             this.liveMap.emptyAccidentMarkers();
+            
 
             for(var i = 0; i < data.length; i++){
                 var position = new Position(data[i].Longitude, data[i].Latitude);
@@ -35,7 +38,7 @@
                     additionalInfo, data[i].DateTime, data[i].ServerDateTime, data[i].Resolve);
                                         
                 string = accidentReport.toString();
-
+                accidentRadioList.innerHTML += '<input type="radio" name="accidentRadio" value="' + data[i].ID + '"> ' + string + "<br>";
                 this.liveMap.addAccidentMarker(position, markerIconURL, onClickMarker(string));
             }
 
@@ -48,6 +51,8 @@
 			var data = JSON.parse(event.data);
             var string = "";
             var markerIconURL = './res/white-dot.png';
+            var rescueUnitRadioList = document.getElementById("rescueUnitRadioList");
+            rescueUnitRadioList.innerHTML = "";
             this.liveMap.emptyRescueUnitMarkers();
 
             for(var i = 0; i < data.length; i++){
@@ -58,7 +63,7 @@
                 var rescueUnit = new RescueUnit(data[i].IMEI, position, rescueUnitStatus);
                                         
                 string = rescueUnit.toString();
-
+                rescueUnitRadioList.innerHTML += '<input type="radio" name="rescueUnitRadio" value="' + data[i].IMEI + '"> ' + string + "<br>";
                 this.liveMap.addRescueUnitMarker(position, markerIconURL, onClickMarker(string));
             }
 
