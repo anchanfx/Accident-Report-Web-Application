@@ -7,11 +7,11 @@
 	}
 
 	LiveMap.prototype.initialize = function() {
-	    var myCenter = new google.maps.LatLng(0,0);
+	    var myCenter = new google.maps.LatLng(16,100);
 	    var mapProp = {   
 			center:myCenter,
 			zoom:5,
-			mapTypeId:google.maps.MapTypeId.HYBRID 
+			mapTypeId:google.maps.MapTypeId.TERRAIN 
 	    };
 	    
 	    map = new google.maps.Map(document.getElementById("googleMap"),mapProp);

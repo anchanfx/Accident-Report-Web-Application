@@ -11,11 +11,12 @@ document.writeln('<script type="text/javascript" src="js/SSE.js"></script>');
 document.writeln('<script type="text/javascript" src="js/LiveMap_sse.js"></script>');
 
 var ASSIGN_URL = "http://nuaccrepo.mywebcommunity.org/ReportServer/assignAccident.php";
+var SEND_MESSAGE_URL = "http://nuaccrepo.mywebcommunity.org/ReportServer/sendAccidentReporterMessage.php";
 var liveMap;
 var liveMap_sse;
 
 function checkBrowserCompatibility() {
-    if(!(window.XMLHttpRequest && typeof(EventSource)!="undefined")) {
+    if(!(window.XMLHttpRequest && typeof(EventSource)!=="undefined")) {
         alert('Your browser is not support');
     }
 }
@@ -36,6 +37,24 @@ function assignAccident() {
         xmlhttp.send();
     }
 }
+function sendAccidentReporterMessage() {
+        var accidentID = document.querySelector('input[name="accidentRadio"]:checked').value;
+        messageTxtBox = document.getElementById("messageTxtBox");
+        var message = messageTxtBox.value;
+        var xmlhttp = new XMLHttpRequest();
+        
+        xmlhttp.onreadystatechange = function() {
+                if (xmlhttp.readyState == 4 && xmlhttp.status == 200) {
+                        alert('Your Message is sent to Accident Reporter by Accident ID = ' + accidentID);
+                }
+        }
+
+        if(accidentID != null && message != null) {
+            xmlhttp.open("GET", SEND_MESSAGE_URL + "?message="+ message +"&accidentID=" + accidentID, true);
+            xmlhttp.send();
+            messageTxtBox.value = "";
+        }
+}
 
 function headerSetup() {
 	checkBrowserCompatibility();
@@ -45,6 +64,7 @@ function headerSetup() {
 }
 
 function footerSetup() {
-	liveMap_sse.initialize();
-    document.getElementById("assignButton").onclick = assignAccident;
+        liveMap_sse.initialize();
+        document.getElementById("assignButton").onclick = assignAccident;
+        document.getElementById("sendMessageButton").onclick = sendAccidentReporterMessage;
 }

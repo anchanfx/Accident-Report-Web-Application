@@ -19,9 +19,12 @@ require_once 'menubar.php';
 
             <h3>Accident</h3>
             <div id="accidentRadioList"></div>
+            <input id="messageTxtBox" type="text" placeholder="Message">
+            <button id="sendMessageButton" type="button" value="Submit">Send Message</button>
             <hr>
             <h3>Rescue Unit</h3>
             <div id="rescueUnitRadioList"></div>
+            <hr>
             <button id="assignButton" type="button" value="Submit">Assign</button>
         </div>
 

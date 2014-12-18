@@ -2,7 +2,7 @@
 
 	function LiveMap_SSE(accidentSSE, liveMap) {
 		this.accidentSSE = accidentSSE;
-		this.liveMap = liveMap
+		this.liveMap = liveMap;
 	}
 
 	LiveMap_SSE.prototype.initialize = function() {

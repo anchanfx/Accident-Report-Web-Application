@@ -16,18 +16,18 @@
 			$this->con = $con;
 		}
 		
-	function closeDB(){
+                function closeDB(){
 			mysqli_close($this->con) or die("Can't Close Connection");
 		}
 		
-		function selectAllAccidentReport()
+                function selectAllAccidentReport()
 		{
 			$mysql = mysqli_query ($this->con, "SELECT * FROM AccidentReport ORDER BY ID DESC");
 		
 			return $mysql;
 		}
 
-        function selectAllRescueUnit()
+                function selectAllRescueUnit()
 		{
 			$mysql = mysqli_query ($this->con, "SELECT * FROM RescueUnit ORDER BY Online DESC, Available DESC");
 		
@@ -40,7 +40,7 @@
 	                $stmt = $conn->prepare("SELECT * FROM AccidentReport WHERE ID = ?");
 	                $stmt->bind_param("i", $id);
 	                $stmt->execute();
-	                $stmt->bind_result($id, $longitude,$latitude,$accidentType,
+	                $stmt->bind_result($id, $imei, $longitude,$latitude,$accidentType,
 	                                        $amountOfDead,$amountOfInjured,
 	                                        $trafficBlocked,$message,
 	                                        $dateTime,$serverDateTime,$resolve);
@@ -51,6 +51,7 @@
 	                $result = new AccidentReport($longitude,$latitude,$accidentType,
 	                                                $amountOfDead,$amountOfInjured,
 							$trafficBlocked,$message,$dateTime);
+                        $result->imei = $imei;
 	                $result->serverDateTime = $serverDateTime;
 	                $result->resolve = $resolve;
 	                return $result;
