@@ -30,8 +30,10 @@
             for(var i = 0; i < data.length; i++){
             	if(data[i].Resolve == 0){
             		markerIconURL = './res/red-dot.png';
-            	}else markerIconURL = './res/green-dot.png';
-            	
+            	} else {
+                    markerIconURL = './res/green-dot.png';
+            	}
+
                 var position = new Position(data[i].Longitude, data[i].Latitude);
                 
                 var additionalInfo = new AdditionalInfo(data[i].AccidentType, 
@@ -63,9 +65,13 @@
             	if(data[i].Online == 1){
             		if(data[i].Available == 1){
             			markerIconURL = './res/white-dot.png';
-            		}else markerIconURL = './res/blue-dot.png';
-            	}else markerIconURL = './res/black-dot.png';
-            	
+            		} else {
+                        markerIconURL = './res/blue-dot.png';
+                    }
+            	} else {
+                    markerIconURL = './res/black-dot.png';
+            	}
+                
                 var position = new Position(data[i].Longitude, data[i].Latitude);
                 
                 var rescueUnitStatus = new RescueUnitStatus(data[i].Online, data[i].Available);
