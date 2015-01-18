@@ -42,6 +42,7 @@ padding: 20px;
 		<ul>
 			<li><a href="http://nuaccrepo.mywebcommunity.org/WebApplication/liveMap.php">Map</a></li>
 			<li><a href="http://nuaccrepo.mywebcommunity.org/WebApplication/index.php">Accidents</a></li>
+			<li><a href="http://nuaccrepo.mywebcommunity.org/WebApplication/statistics.php">Statistics</a></li>
 		</ul>
 	</div>
 </body>

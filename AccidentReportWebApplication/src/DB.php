@@ -49,12 +49,38 @@
 	                $stmt->close();
 	                
 	                $result = new AccidentReport($longitude,$latitude,$accidentType,
-	                                                $amountOfDead,$amountOfInjured,
-							$trafficBlocked,$message,$dateTime);
-                        $result->imei = $imei;
+	                                            $amountOfDead,$amountOfInjured,
+												$trafficBlocked,$message,$dateTime);
+                    $result->imei = $imei;
 	                $result->serverDateTime = $serverDateTime;
 	                $result->resolve = $resolve;
 	                return $result;
+		}
+		
+		function selectByDate($sDate,$ndate){
+			$accidentData = array();
+			$conn = $this->con;
+			$stmt = $conn->prepare("SELECT * FROM AccidentReport WHERE ServerDateTime BETWEEN ? AND ?");
+			$stmt->bind_param("ss", $sDate,$ndate);
+			$stmt->execute();
+			$stmt->bind_result($id, $imei, $longitude,$latitude,$accidentType,
+	                                        $amountOfDead,$amountOfInjured,
+	                                        $trafficBlocked,$message,
+	                                        $dateTime,$serverDateTime,$resolve);
+
+			while ($stmt->fetch()) { 
+				$result = new AccidentReport($longitude,$latitude,$accidentType,
+					$amountOfDead,$amountOfInjured,
+					$trafficBlocked,$message,$dateTime);
+				$result->imei = $imei;
+				$result->serverDateTime = $serverDateTime;
+				$result->resolve = $resolve;
+				array_push($accidentData, $result);
+			}
+	
+			$stmt->close();
+	
+			return $accidentData;
 		}
 	}
 ?>

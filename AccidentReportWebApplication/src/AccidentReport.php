@@ -1,7 +1,7 @@
 <?php
 class AccidentReport{
         
-        public $imei; // NOT IN Constructor
+    public $imei; // NOT IN Constructor
 	public $longitude;
 	public $latitude;
 	public $accidentType;
@@ -27,7 +27,7 @@ class AccidentReport{
 		$this->message = $message;
 		$this->dateTime = $dateTime;
                 
-                $this->imei = "";
+        $this->imei = "";
 		$this->serverDateTime = 0;
 		$this->resolve = 0;
 	}
