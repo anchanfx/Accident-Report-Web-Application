@@ -16,18 +16,18 @@
 			$this->con = $con;
 		}
 		
-                function closeDB(){
+        function closeDB(){
 			mysqli_close($this->con) or die("Can't Close Connection");
 		}
 		
-                function selectAllAccidentReport()
+        function selectAllAccidentReport()
 		{
 			$mysql = mysqli_query ($this->con, "SELECT * FROM AccidentReport ORDER BY ID DESC");
 		
 			return $mysql;
 		}
 
-                function selectAllRescueUnit()
+        function selectAllRescueUnit()
 		{
 			$mysql = mysqli_query ($this->con, "SELECT * FROM RescueUnit ORDER BY Online DESC, Available DESC");
 		
@@ -81,6 +81,15 @@
 			$stmt->close();
 	
 			return $accidentData;
+		}
+		
+		function timeRespond(){
+			$mysql = mysqli_query ($this->con, 
+					"SELECT A.ID ,A.ServerDateTime ,M.DateTime
+					FROM AccidentReport A ,MissionReport M 
+					WHERE A.ID = M.AccidentID AND M.RescueState = '1'");
+		
+			return $mysql;
 		}
 	}
 ?>

@@ -42,12 +42,22 @@
 	<form method="post" action=" ">
 	    <div >
 	        <form class="valu">
-			<input type="radio" name=myradio id="type" value="Type">
- 			<label for="type">Type Accdent</label>
 			<input type="radio" name=myradio id="time" value="Time">
  			<label for="time">Time From Report</label>
-			<input type="radio" name=myradio id="zone" value="Zone">
- 			<label for="zone">Zone Accdent</label>
+			<input type="radio" name=myradio id="response" value="response">
+ 			<label for="response">Time response</label>
+			</form>
+	    </div>
+	</form>
+	
+	<form id="tradio" class="hidden" method="post" action=" ">
+	    <div >
+	        <form class="valu">
+			<input type="radio" name=timeradio id="all" value="dataTimeRespond.php">
+ 			<label for="all">Time statistic for all response</label>
+			<input type="radio" name=timeradio id="first" value="dataFirstRespond.php">
+ 			<label for="first">Time statistic for first response</label>
+ 			<input type="button" value="Show Statistics" id="showS" />
 			</form>
 	    </div>
 	</form>
@@ -59,8 +69,11 @@
 		<input type="text" name="nDate" id="nDate" value="" />
 		<input type="button" value="Show Graph" id="showG" />
 	</form>
+	
+	
 	<div id="donutchart" class="hidden" style="width: 900px; height: 500px;"></div>
-	<div id="outp" class="hidden">Hi!</div>
+	<div id="outp" class="hidden"> </div>
+	
 	<script type="text/javascript">
 
 	google.load("visualization", "1", {packages:["corechart"]});
@@ -69,7 +82,8 @@
   	  var data = new google.visualization.DataTable(json);
         
         var options = {
-        	is3D: true
+        	is3D: true,
+        	title: 'Time Phase in report'
         };
 
         var chart = new google.visualization.PieChart(document.getElementById('donutchart'));
@@ -78,26 +92,11 @@
 
 	$("input").on("click", function(){
 		var selectValu = $( "input:checked" ).val();
-		if(selectValu == "Type"){
-			$("#donutchart").hide();
-			$("#f_date").hide();
-			$("#outp").hide();
-
-			/*$("#outp").show();
-			$("#showG").click(function(){
-				$.ajax(
-					    {
-					    url: "dataType.php",
-					    type: "POST",
-					    data: { sDate: $('#sDate').val(), nDate: $('#nDate').val()},
-					    success: function(status){
-					    	$("#outp").text(status);
-					    }
-					}); 
-			});*/
-			
-		}else if(selectValu == "Time"){
+		if(selectValu == "Time"){
+			$("#donutchart").show();
 			$("#f_date").show();
+			$("#tradio").hide();
+			$("#outp").hide();
 			
 			$("#showG").click(function(){
 				$.ajax(
@@ -113,10 +112,26 @@
 					}); 
 			});
 			
-		}else if(selectValu == "Zone"){
+		}else if(selectValu == "response"){
 			$("#donutchart").hide();
 			$("#f_date").hide();
-			$("#outp").hide();
+			$("#tradio").show();
+			$("#outp").show();
+
+			$("#showS").click(function(){
+				var urldata = $('input[name=timeradio]:checked').val();
+				$.ajax(
+					    {
+					    url: urldata,
+					    type: "POST",
+					    success: function(status){
+					    	$("#outp").text(status);
+					    }
+				}); 
+			});
+
+			
+			
 		}
 	}).change();
 
